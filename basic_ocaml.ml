@@ -1,33 +1,3 @@
-(* 
-	Jonathan Kosgei
-	https://www.github.com/jonathankosgei/kalenjinCamel
-	https://www.facebook.com/jonathankbt71
-	
-	Ocaml lists, operations and functions.
-	
-	Some content of this file are my answers to John Whitington's 
-	"Ocaml from the very beginning" book. ISBN:9780957671102.
-*)
-
-(* Sample OCaml list *)
-let l = [23; 34; 65; 76; 45; 76; 1; 0; 344; 754];;
-let empl = [];;
-
-
-(* Recursively calculate the length of a list. Polymorphous. *)
-let rec length l =
-	match l with 
-	[] -> 0
-	|_::t -> 1 + length t;;	
-	
-(* Recursively take n elements from a list *)
-let rec take n l = if n < 0 then raise (Invalid_argument "Negative n") else
-  match l with
-  | [] -> raise (Invalid_argument "short list")
-  | [a] -> [a]
-  | h::t -> if n > 0 then h:: take (n-1) t else [];;
-
-
 (* recursively replace ! with . *)
 let rec calm (lst:char list) : char list =
     match lst with 
@@ -161,4 +131,32 @@ let first_elem_lst_lst = List.map
     | [] -> raise (Invalid_argument "Empty list element") 
     | h::_ -> h);;
 
+(* type for representing rectangles*)
+type rect = Rectangle of int * int | Square of int;;
 
+(* calculate the area of a given rectangle *)
+let rect_area r =
+    match r with
+    | Rectangle (a,b) -> a * b
+    | Square c -> c * c;;
+
+(* rotates a rectangle to be as tall as it is wide *)
+let rect_rotate r =
+    match r with 
+    | Rectangle (l,w) -> if l > w then Rectangle (w,l) else r
+    | _ -> r;;
+
+(* returns a list of rotated rectangles in order from narrowest to widest *)
+let rect_rotate_sort rects = 
+    let rotated = List.map rect_rotate rects in
+    let comparison r r' = 
+        let integ a b = if a < b then -1 else if b > 1 then 1 else 0 in
+        match r,r' with
+        | Rectangle (l,_), Rectangle (l',_) -> integ l l'
+        | Rectangle (l,_), Square w -> integ l w
+        | Square w, Rectangle (l,_) -> integ w l
+        | Square w, Square w' -> integ w w'
+    in List.sort comparison rotated;;
+
+(* return options to avoid raising exceptions when division by zero happens *)
+let safe_divide a b = try Some (a/b) with Division_by_zero -> None;;
