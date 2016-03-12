@@ -3,7 +3,10 @@
 	https://www.github.com/jonathankosgei/kalenjinCamel
 	https://www.facebook.com/jonathankbt71
 	
-	Ocaml list operations functions.
+	Ocaml lists, operations and functions.
+	
+	Some content of this file are my answers to John Whitington's 
+	"Ocaml from the very beginning" book. ISBN:9780957671102.
 *)
 
 (* Sample OCaml list *)
